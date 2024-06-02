@@ -34,7 +34,7 @@ blocks:
   language: python
   name: Data preparation
   retry_config: null
-  status: updated
+  status: executed
   timeout: null
   type: transformer
   upstream_blocks:
@@ -62,6 +62,10 @@ spark_config: {}
 tags: []
 type: python
 uuid: data_ingest
+variables:
+  color: yellow
+  months: 3
+  year: 2023
 variables_dir: /home/src/mage_data/homework_03
 widgets:
 - all_upstream_blocks_executed: true
@@ -102,7 +106,7 @@ widgets:
   language: python
   name: missing values for ingest
   retry_config: null
-  status: executed
+  status: failed
   timeout: null
   type: chart
   upstream_blocks:
@@ -123,7 +127,7 @@ widgets:
   language: python
   name: most frequent values for ingest
   retry_config: null
-  status: executed
+  status: failed
   timeout: null
   type: chart
   upstream_blocks:
@@ -165,7 +169,7 @@ widgets:
   language: python
   name: data_preparation_histogram_a0
   retry_config: null
-  status: executed
+  status: failed
   timeout: null
   type: chart
   upstream_blocks:

@@ -1,4 +1,9 @@
 import pandas as pd
+from mlops.homework_03.utils.data_preparation.preprocessing import (
+    calculate_duration,
+    filter_duration_outliers,
+    locations_to_str,
+)
 
 if 'transformer' not in globals():
     from mage_ai.data_preparation.decorators import transformer
@@ -6,12 +11,7 @@ if 'transformer' not in globals():
 
 @transformer
 def transform_df(df: pd.DataFrame, **kwargs) -> pd.DataFrame:
-    df['duration'] = df.tpep_dropoff_datetime - df.tpep_pickup_datetime
-    df.duration = df.duration.dt.total_seconds() / 60
-
-    df = df[(df.duration >= 1) & (df.duration <= 60)]
-
-    categorical = ['PULocationID', 'DOLocationID']
-    df[categorical] = df[categorical].astype(str)
-
+    df = calculate_duration(df)
+    df = filter_duration_outliers(df)
+    df = locations_to_str(df)
     return df

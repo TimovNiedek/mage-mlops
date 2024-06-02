@@ -12,10 +12,19 @@ if 'data_loader' not in globals():
 def ingest_files(**kwargs) -> pd.DataFrame:
     dfs: List[pd.DataFrame] = []
 
-    # March 2023
-    for year, months in [(2023, (3, 4))]:
-        for month in range(*months):
-            df = pd.read_parquet(f'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year}-{month:02d}.parquet')
-            dfs.append(df)
+    # Default : March 2023 (yellow)
+    year = int(kwargs.get('year', '2023'))
+    months = [
+        int(month) 
+        for month in 
+        str(kwargs.get('months', '3')).split(',')
+    ]
+    color = kwargs.get('taxi_color', 'yellow')
 
-        return pd.concat(dfs)
+    print(f'Fetching data for {color=}, {year=}, {months=}')
+
+    for month in months:
+        df = pd.read_parquet(f'https://d37ci6vzurychx.cloudfront.net/trip-data/{color}_tripdata_{year}-{month:02d}.parquet')
+        dfs.append(df)
+
+    return pd.concat(dfs)
